@@ -121,7 +121,12 @@
   
   <div class="header flex items-center justify-between bg-green-500 text-white p-4">
 	<div class="flex items-center space-x-2">
-	  <div class="icon w-8 h-8 bg-gray-200 rounded-full"></div>
+	  <div class="icon w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+		<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+			<path fill-rule="evenodd" d="M3.559 4.544c.355-.35.834-.544 1.33-.544H19.11c.496 0 .975.194 1.33.544.356.35.559.829.559 1.331v9.25c0 .502-.203.981-.559 1.331-.355.35-.834.544-1.33.544H15.5l-2.7 3.6a1 1 0 0 1-1.6 0L8.5 17H4.889c-.496 0-.975-.194-1.33-.544A1.868 1.868 0 0 1 3 15.125v-9.25c0-.502.203-.981.559-1.331ZM7.556 7.5a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2h-8Zm0 3.5a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2H7.556Z" clip-rule="evenodd"/>
+		  </svg>
+		  
+	  </div>
 	  <h1 class="text-lg font-bold">Note Lister</h1>
 	</div>
   
@@ -164,30 +169,35 @@
   
 	<!-- Main Content -->
 	<div class="flex-1 p-4">
-	  <div class="grid grid-cols-2 gap-4">
-		{#if loading}
-		  <p>Loading...</p>
-		{:else if getFilteredNotes().length > 0}
-		  <!-- svelte-ignore a11y_click_events_have_key_events -->
-		  <!-- svelte-ignore a11y_no_static_element_interactions -->
-		  {#each getFilteredNotes() as note}
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<div
-			  class="bg-gray-100 p-4 rounded-lg shadow cursor-pointer"
-			  on:click={() => openNoteModal(note)}
-			>
-			  <div class="flex justify-between items-center mb-2">
-				<h2 class="text-lg font-bold">{note.title}</h2>
-				<span class="bg-black text-white px-2 py-1 rounded-lg text-sm">{note.category}</span>
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+		  {#if loading}
+			<p>Loading...</p>
+		  {:else if getFilteredNotes().length > 0}
+			{#each getFilteredNotes() as note}
+			  <!-- svelte-ignore a11y_click_events_have_key_events -->
+			  <!-- svelte-ignore a11y_no_static_element_interactions -->
+			  <div
+				class="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+				on:click={() => openNoteModal(note)}
+			  >
+				<div class="flex justify-between items-center mb-2">
+				  <h2 class="text-lg font-bold truncate">{note.title}</h2>
+				  <span class="bg-black text-white px-3 py-1 rounded-full text-xs">
+					{note.category}
+				  </span>
+				</div>
+				<p class="text-gray-700 overflow-hidden text-ellipsis line-clamp-3">
+				  {note.description}
+				</p>
 			  </div>
-			  <p class="text-gray-700">{note.description}</p>
-			</div>
-		  {/each}
-		{:else}
-		  <p>No notes found in this category.</p>
-		{/if}
+			{/each}
+		  {:else}
+			<p class="text-center text-gray-500">No notes found in this category.</p>
+		  {/if}
+		</div>
 	  </div>
-	</div>
+	  
+	  
   </div>
   
   <!-- Add New Notes Modal -->
@@ -239,30 +249,44 @@
 		></textarea>
 	  </div>
 	  <div class="flex justify-end space-x-2">
-		<Button color="alternative" on:click={() => (addNoteModalOpen = false)}>Cancel</Button>
-		<Button type="submit">Save</Button>
+		<Button color="green" pill on:click={() => (addNoteModalOpen = false)}>Cancel</Button>
+		<Button color="green" pill type="submit">Save</Button>
 	  </div>
 	</form>
   </Modal>
   
   <!-- Preview Note Modal -->
-  {#if selectedNote}
-	<Modal title={selectedNote.title} bind:open={previewNoteModalOpen}>
-	  <div>
-		<h2 class="text-lg font-bold">{selectedNote.title}</h2>
-		<p class="text-gray-700">{selectedNote.description}</p>
-		<p class="mt-2 text-sm text-gray-500">{selectedNote.category}</p>
-		{#if selectedNote.musicFile}
-		  <audio controls>
-			<source src={`data:audio/mp3;base64,${selectedNote.musicFile}`} type="audio/mpeg">
-			Your browser does not support the audio element.
-		  </audio>
-		{/if}
+  <!-- Preview Note Modal -->
+{#if selectedNote}
+<Modal title={selectedNote.title} bind:open={previewNoteModalOpen}>
+  <div class="max-h-[75vh] overflow-auto">
+	<div class="mb-4">
+	  <!--<h2 class="text-lg font-bold truncate">{selectedNote.title}</h2> -->
+	  <p class="text-sm text-gray-500">{selectedNote.category}</p>
+	</div>
+	<div class="mb-4">
+	  <!-- Limit the description to avoid overflow -->
+	  <p class="text-gray-700 whitespace-pre-wrap break-words">
+		{selectedNote.description}
+	  </p>
+	</div>
+	{#if selectedNote.musicFile}
+	  <div class="mb-4">
+		<audio controls class="w-full">
+		  <source
+			src={`data:audio/mp3;base64,${selectedNote.musicFile}`}
+			type="audio/mpeg"
+		  />
+		  Your browser does not support the audio element.
+		</audio>
 	  </div>
-	  <div class="flex justify-end space-x-2">
-		<Button color="alternative" on:click={() => (previewNoteModalOpen = false)}>Close</Button>
-		<Button color="red" on:click={deleteNote}>Delete</Button>
-	  </div>
-	</Modal>
-  {/if}
+	{/if}
+  </div>
+  <div class="flex justify-end space-x-2">
+	<Button color="green" pill on:click={() => (previewNoteModalOpen = false)}>Close</Button>
+	<Button color="green" pill	 on:click={deleteNote}>Delete</Button>
+  </div>
+</Modal>
+{/if}
+
   
