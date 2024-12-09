@@ -119,20 +119,20 @@
 	}
   </script>
   
-  <div class="header flex items-center justify-between bg-green-500 text-white p-4">
-	<div class="flex items-center space-x-2">
-	  <div class="icon w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+  <div class="header flex items-center justify-between bg-green-500 text-white p-4 ">
+	<div class="flex items-center space-x-2 ">
+	  <div class=" icon w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center ml-1">
 		<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
 			<path fill-rule="evenodd" d="M3.559 4.544c.355-.35.834-.544 1.33-.544H19.11c.496 0 .975.194 1.33.544.356.35.559.829.559 1.331v9.25c0 .502-.203.981-.559 1.331-.355.35-.834.544-1.33.544H15.5l-2.7 3.6a1 1 0 0 1-1.6 0L8.5 17H4.889c-.496 0-.975-.194-1.33-.544A1.868 1.868 0 0 1 3 15.125v-9.25c0-.502.203-.981.559-1.331ZM7.556 7.5a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2h-8Zm0 3.5a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2H7.556Z" clip-rule="evenodd"/>
 		  </svg>
 		  
 	  </div>
-	  <h1 class="text-lg font-bold">Note Lister</h1>
+	  <h1 class="text-2xl font-bold text-black">Note Lister</h1>
 	</div>
   
 	<!-- Add Button for New Notes -->
 	<Button
-	  class="bg-white text-green-500 font-semibold rounded-lg px-4 py-2 hover:bg-green-100 transition duration-200"
+	  class="bg-white text-black   font-bold rounded-lg px-4 py-2 hover:bg-green-100 transition duration-200"
 	  on:click={() => (addNoteModalOpen = true)}
 	>
 	  Add New Notes
