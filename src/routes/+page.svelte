@@ -262,11 +262,11 @@
   <div class="max-h-[75vh] overflow-auto">
 	<div class="mb-4">
 	  <!--<h2 class="text-lg font-bold truncate">{selectedNote.title}</h2> -->
-	  <p class="text-sm text-gray-500">{selectedNote.category}</p>
+	  <p class="text-sm text-black font-bold">{selectedNote.category}</p>
 	</div>
 	<div class="mb-4">
 	  <!-- Limit the description to avoid overflow -->
-	  <p class="text-gray-700 whitespace-pre-wrap break-words">
+	  <p class=" whitespace-pre-wrap break-words text-black font-bold">
 		{selectedNote.description}
 	  </p>
 	</div>
